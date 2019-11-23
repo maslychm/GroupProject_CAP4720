@@ -33,8 +33,11 @@ public class UpdatePosShader : MonoBehaviour
     void Update()
     {
         // Send core and cube position to shader
+        Vector3 dist = core.transform.position - gameObject.transform.position;
+
         rend.material.SetVector(corePosShaderID, core.transform.position);
         rend.material.SetVector(objePosShaderID, gameObject.transform.position);
-        //Debug.Log(dist);
+
+        Debug.Log(dist);
     }
 }

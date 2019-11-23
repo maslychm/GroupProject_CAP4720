@@ -43,20 +43,27 @@
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
-			float3 dist = length(_CorePos - _ObjPos);
+			float3 dist3 = _CorePos - _ObjPos;
+			float dist = length(dist3);
+			
 
-			if (dist.x < 3.0)
+			// 20.0 is scale of distance in world space
+			_Color.r = dist * float3(1.0, 0, 0) / 20.0;
+			_Color.g = 0.0;
+			_Color.b = 0.0;
+
+			/*if (dist < 3.0)
 			{
 				_Color.r = 0.0;
 				_Color.g = 0.0;
 				_Color.b = 0.0;
 			}
-			else if (dist.x > 3.0)
+			else if (dist > 3.0)
 			{
 				_Color.r = 200.0;
 				_Color.g = 200.0;
 				_Color.b = 200.0;
-			}
+			}*/
 
             // Albedo comes from a texture tinted by color
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
