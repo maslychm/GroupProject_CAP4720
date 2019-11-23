@@ -5,7 +5,6 @@ using UnityEngine;
 public class UpdatePosShader : MonoBehaviour
 {
     GameObject core;
-    Shader shaderCube;
     Renderer rend;
     int objePosShaderID;
     int corePosShaderID;

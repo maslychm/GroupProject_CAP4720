@@ -39,19 +39,21 @@
 
             sampler2D _MainTex;
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag (v2f IN) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 col = tex2D(_MainTex, IN.uv + float2(0, sin(IN.vertex.x/50 + _Time[1]) / 300));
                 // just invert the colors
                 //col.rgb = 1 - col.rgb;
 				//col.r -= 1;
 				
-				col.r = col.g = col.b = 
+				/*col.r = col.g = col.b = 
 					sqrt(col.r * col.r
 					+ col.g * col.g
-					+ col.b * col.b);
+					+ col.b * col.b);*/
 			
-				col = normalize(col);
+				//col = normalize(col);
+
+				
 
                 return col;
             }
