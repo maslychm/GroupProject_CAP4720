@@ -7,6 +7,7 @@
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
 		_ObjPos ("ObjPos", Vector) = (0,0,0,0)
+		_CorePos("ObjPos", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -31,6 +32,7 @@
         half _Metallic;
         fixed4 _Color;
 		float4 _ObjPos;
+		float4 _CorePos;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -41,18 +43,21 @@
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
-			if (_ObjPos.x < 1.0)
+			float3 dist = length(_CorePos - _ObjPos);
+
+			if (dist.x < 3.0)
 			{
 				_Color.r = 0.0;
 				_Color.g = 0.0;
 				_Color.b = 0.0;
 			}
-			else if (_ObjPos.x > 1.0)
+			else if (dist.x > 3.0)
 			{
 				_Color.r = 200.0;
 				_Color.g = 200.0;
 				_Color.b = 200.0;
 			}
+
             // Albedo comes from a texture tinted by color
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
             o.Albedo = c.rgb;
