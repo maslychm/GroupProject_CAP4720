@@ -45,7 +45,7 @@
 
 				// get color from displacement map, and convert to float from 0 to _MaxDisplacement
 				float4 dispTexColor = tex2Dlod(_DisplacementTex, float4(i.texcoord.xy, 0.0, 0.0));
-				float displacement = dot(float3(0.21, 0.72, 0.07), dispTexColor.rgb) * _MaxDisplacement;
+				float displacement = dot(float3(0.33, 0.33, 0.33), dispTexColor.rgb) * _MaxDisplacement;
 
 				// displace vertices along surface normal vector
 				float4 newVertexPos = i.vertex + float4(i.normal * displacement / 10 * dist, 0.0);
@@ -60,6 +60,7 @@
 			float4 frag(vertexOutput i) : COLOR
 			{
 				//float4 newC = tex2D(_MainTex, i.texcoord.xy);
+				/*fixed4 newC = */
 				return _Color;
 			}
 
