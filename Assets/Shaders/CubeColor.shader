@@ -7,7 +7,8 @@
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
 		_ObjPos ("ObjPos", Vector) = (0,0,0,0)
-		_CorePos("ObjPos", Vector) = (0,0,0,0)
+		_CorePos ("ObjPos", Vector) = (0,0,0,0)
+		_Scale ("Scale", Range(0,100)) = 20.0
     }
     SubShader
     {
@@ -33,6 +34,7 @@
         fixed4 _Color;
 		float4 _ObjPos;
 		float4 _CorePos;
+		float _Scale;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -46,24 +48,10 @@
 			float3 dist3 = _CorePos - _ObjPos;
 			float dist = length(dist3);
 			
-
 			// 20.0 is scale of distance in world space
-			_Color.r = dist * float3(1.0, 0, 0) / 20.0;
-			_Color.g = 0.0;
+			_Color.r = dist / _Scale;
+			_Color.g = 1.0 / dist / _Scale;
 			_Color.b = 0.0;
-
-			/*if (dist < 3.0)
-			{
-				_Color.r = 0.0;
-				_Color.g = 0.0;
-				_Color.b = 0.0;
-			}
-			else if (dist > 3.0)
-			{
-				_Color.r = 200.0;
-				_Color.g = 200.0;
-				_Color.b = 200.0;
-			}*/
 
             // Albedo comes from a texture tinted by color
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
