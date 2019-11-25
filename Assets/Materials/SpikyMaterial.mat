@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Spiky
+  m_Name: SpikyMaterial
   m_Shader: {fileID: 4800000, guid: 6e267b71c2bc17140b702aff7f4039a3, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -75,7 +75,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _MaxDisplacement: 5
+    - _MaxDisplacement: 25
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1

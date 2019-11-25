@@ -36,7 +36,7 @@
             {
                 v2f o;
 				float3 worldNormal = UnityObjectToWorldNormal(v.normal);
-				worldNormal = normalize(worldNormal);
+				worldNormal = (normalize(worldNormal) + 1) / 2;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = worldNormal;
                 return o;

@@ -34,7 +34,6 @@
 
 			struct vertexOutput {
 				float4 position : SV_POSITION;
-				float4 texcoord : TEXCOORD0;
 				fixed4 color : COLOR;
 			};
 
@@ -45,10 +44,18 @@
 				float dist = length(dist3);
 
 				// Get color from displacement map, and convert to float from 0 to _MaxDisplacement
-				float4 dispTexColor = tex2Dlod(_DisplacementTex, float4(i.texcoord.xy, 0.0, 0.0));
+				float4 dispTexColor = tex2Dlod(
+					_DisplacementTex, 
+					float4(
+						i.texcoord.x + _Time[0],
+						i.texcoord.y,
+						0.0, 
+						0.0
+					)
+				);
 				
 				// Diplace by G direction times _MaxDisplacement
-				float displacement = dispTexColor.b / _MaxDisplacement * dist / 5;
+				float displacement = dispTexColor.b / _MaxDisplacement * dist;
 				
 				// Scale a value for usage in color
 				float displ = displacement * 5;
@@ -58,14 +65,13 @@
 
 				// Output data            
 				o.position = UnityObjectToClipPos(newVertexPos);
-				o.texcoord = i.texcoord;
-				o.color = fixed4(displ, displ, displ, displ);
+				o.color = displ * _Color;
 				return o;
 			}
 
 			float4 frag(vertexOutput i) : COLOR
 			{
-				return i.color.x * _Color;
+				return i.color;
 			}
 			ENDCG
 		}
