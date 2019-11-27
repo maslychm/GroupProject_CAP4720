@@ -3,7 +3,7 @@
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-        //_MainTex ("Main Texture", 2D) = "white" {}
+        _MainTex("Main Texture", 2D) = "white" {}
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
 		// Add additional Properties here.
@@ -11,6 +11,7 @@
 		_ObjPos("ObjPos", Vector) = (0,0,0,0)
 		_CorePos("ObjPos", Vector) = (0,0,0,0)
 		_MaxDist("Maximum Distance", Range(0,50)) = 20.0
+		_MaxDisplacement("Max Displacement", Float) = 5.0
 	}
 		SubShader
 		{
@@ -21,7 +22,8 @@
 				 #pragma vertex vert
 				 #pragma fragment frag
 
-				 //sampler2D _MainTex;
+				 sampler2D _MainTex;
+				 float _MaxDisplacement;
 				 sampler2D _DispTex;
 				 float _MaxDist;
 				 fixed4 _Color;
@@ -40,12 +42,28 @@
 				 };
 
 				 vertexOutput vert(vertexInput i) {
+					 vertexOutput o;
 					 float3 dist3 = _CorePos - _ObjPos;
 					 float dist = length(dist3);
 					 float timeDisp = _Time % 1;
-					 float4 dispTexColor = tex2Dlod(_DispTex, float4(i.texcoord.xy, 0.0, 0.0) + timeDisp);
-					 vertexOutput o;
-					 o.position = UnityObjectToClipPos(i.vertex);
+					float4 dispTexColor = tex2Dlod(
+						_DispTex, 
+						float4(
+							i.texcoord.x + _Time[0],
+							i.texcoord.y,
+							0.0, 
+							0.0
+						)
+					);
+				
+
+					 float disp = dispTexColor.b / _MaxDisplacement * dist;
+
+					 float displ = disp * 5;
+					 float4 newVertPos = i.vertex + float4(i.normal * disp, 0.0) / 10;
+					 o.position = UnityObjectToClipPos(newVertPos);
+					//  o.position = UnityObjectToClipPos(i.vertex);
+					//  o.color = displ * _Color;
 					 o.texcoord = i.texcoord;
 					 return o;
 				 }
@@ -56,11 +74,11 @@
 					 float dist = length(dist3);
 
 					 float timeDisp = _Time % 1;
-					 float distDegree = (dist / _MaxDist);
-					 float4 texColor = tex2Dlod(_DispTex, float4(i.texcoord.xy, 0.0, 0.0) + timeDisp);
+					 float4 texColor = tex2Dlod(_MainTex, float4(i.texcoord.xy, 0.0, 0.0) + timeDisp);
 					 if (dist > _MaxDist) {
 						 dist = _MaxDist;
 					 }
+					 float distDegree = (dist / _MaxDist);
 					 
 					 float texTrans = distDegree;
 					 texColor *= texTrans;
