@@ -42,6 +42,8 @@
 				 vertexOutput vert(vertexInput i) {
 					 float3 dist3 = _CorePos - _ObjPos;
 					 float dist = length(dist3);
+					 float timeDisp = _Time % 1;
+					 float4 dispTexColor = tex2Dlod(_DispTex, float4(i.texcoord.xy, 0.0, 0.0) + timeDisp);
 					 vertexOutput o;
 					 o.position = UnityObjectToClipPos(i.vertex);
 					 o.texcoord = i.texcoord;
@@ -52,17 +54,23 @@
 				 {
 					 float3 dist3 = _CorePos - _ObjPos;
 					 float dist = length(dist3);
+
+					 float timeDisp = _Time % 1;
+					 float distDegree = (dist / _MaxDist);
+					 float4 texColor = tex2Dlod(_DispTex, float4(i.texcoord.xy, 0.0, 0.0) + timeDisp);
 					 if (dist > _MaxDist) {
 						 dist = _MaxDist;
 					 }
-
-					 float r_val = (dist / _MaxDist);
+					 
+					 float texTrans = distDegree;
+					 texColor *= texTrans;
+					 float r_val = distDegree;
 					 float g_val = (1 - r_val);
 				
 					 _Color.r = r_val;
 					 _Color.g = g_val;
 					 _Color.b = 0.0;
-					 return _Color;
+					 return _Color + texColor;
 				 }
 				 ENDCG
 		}
