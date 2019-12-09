@@ -8,6 +8,10 @@ public class UpdatePosShader : MonoBehaviour
     Renderer rend;
     int objePosShaderID;
     int corePosShaderID;
+    //Adding point light effects
+    public GameObject coreLight;
+    private Light lightComp;
+    [SerializeField] public float maxDist = 25;
 
     void Start()
     {
@@ -27,6 +31,10 @@ public class UpdatePosShader : MonoBehaviour
         //rend.material.shader = shaderCube;
 
         //Debug.Log(rend.material.shader);
+
+        //Set lighting object
+        lightComp = coreLight.GetComponent<Light>();
+
     }
 
     void Update()
@@ -34,9 +42,13 @@ public class UpdatePosShader : MonoBehaviour
         // Send core and cube position to shader
         Vector3 dist = core.transform.position - gameObject.transform.position;
 
+        //Adjust lighting
+        Vector3 diff = dist / maxDist;
+
+
         rend.material.SetVector(corePosShaderID, core.transform.position);
         rend.material.SetVector(objePosShaderID, gameObject.transform.position);
 
-        Debug.Log(dist);
+        // Debug.Log(dist);
     }
 }
