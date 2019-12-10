@@ -14,6 +14,7 @@ public class AttachHandler : MonoBehaviour
     Color originalColor;
     GameObject p1;
     GameObject p2;
+    GameObject lights4;
 
     void Start()
     {
@@ -21,9 +22,8 @@ public class AttachHandler : MonoBehaviour
         barySphere = GameObject.Find("BarySphere");
         lockPosition = pedestal.transform.position + pedestalOffset;
         nowAttached = true;
-        p1 = GameObject.Find("Pedestal");
-        p2 = GameObject.Find("Pedestal (1)");
-        p1.GetComponent<Material>().SetColor("_Color", Color.white);
+        lights4 = GameObject.Find("Lights4");
+        disableLights();
     }
 
     void Update()
@@ -41,6 +41,7 @@ public class AttachHandler : MonoBehaviour
             {
                 //barySphere.transform.localScale = sc;
                 nowAttached = false;
+                disableLights();
             }
         }
         else
@@ -52,11 +53,30 @@ public class AttachHandler : MonoBehaviour
                 barySphere.transform.position = lockPosition;
                 barySphere.transform.parent = pedestal.transform;
                 nowAttached = true;
+
+                enableLights();
             }
             else
             {
 
             }
+        }
+    }
+
+    void enableLights()
+    {
+        foreach (Transform child in lights4.transform)
+        {
+            child.gameObject.SetActive(true);
+            Debug.Log("disabled light");
+        }
+    }
+
+    void disableLights()
+    {
+        foreach (Transform child in lights4.transform)
+        {
+            child.gameObject.SetActive(false);
         }
     }
 }
