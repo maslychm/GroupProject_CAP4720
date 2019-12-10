@@ -15,7 +15,7 @@ public class UpdatePosShader : MonoBehaviour
 
     void Start()
     {
-        core = GameObject.Find("Environment/Core");
+        core = GameObject.Find("Environment/Pedestal");
 
         // Get Shader File
         //shaderCube = Shader.Find("Custom/CubeColor");
