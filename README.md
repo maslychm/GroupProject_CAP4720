@@ -62,5 +62,5 @@ Object attachment to point in space: When an object gets close enough to a certa
   - Week 4: Bug-Fixing and Fine-tuning
 
 #### Project Members:
-   [John Lynch](https://github.com/maslychm)   
-   [Mykola Maslych](https://github.com/Fribrios)
+   [John Lynch](https://github.com/Fribrios)   
+   [Mykola Maslych](https://github.com/maslychm)
